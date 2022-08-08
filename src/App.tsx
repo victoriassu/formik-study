@@ -16,7 +16,7 @@ function App() {
   return (
       <Root>
         <HeaderArea onClick={handleMoveFormik}>
-          직원 추가 테스트
+          직원 추가
         </HeaderArea>
         <MainArea>
           <Routes>
