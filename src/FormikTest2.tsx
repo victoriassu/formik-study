@@ -2,6 +2,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Formik, Field, Form, FormikHelpers, ErrorMessage } from 'formik';
+import * as Yup from "yup";
 
 interface UserValues {
     userName: string;
@@ -10,7 +11,18 @@ interface UserValues {
     gender: string;
     empId? : number;
 }
-const FormikTest = () => {
+
+const ValidationSchema = Yup.object().shape({
+    userName : Yup.string()
+        .max(70, '이름은 70자로 제한됩니다.')
+        .required(),
+    phone : Yup.string()
+        .min(2, '2자 이상 입력해야 합니다.')
+        .max(20, '20자로 제한됩니다.')
+        .required()
+});
+
+const FormikTest2 = () => {
     return <>
         <Formik
             initialValues={{
@@ -19,20 +31,7 @@ const FormikTest = () => {
                 snId: '',
                 gender: '',
             }}
-            validate={(values) => {
-                let errors = {};
-                if(! values.userName) {
-                    Object.assign(errors, {
-                        userName : '필수 항목입니다.'
-                    })
-                }
-                if(! values.phone) {
-                    Object.assign(errors, {
-                        phone : '필수 항목입니다.'
-                    })
-                }
-                return errors;
-            }}
+            validationSchema={ValidationSchema}
             onSubmit={(
                 values: UserValues,
                 { setSubmitting }: FormikHelpers<UserValues>
@@ -115,4 +114,4 @@ const SupArea = styled.sup`
 const SpaceY = styled.div<{ space?: string }>`
      height: ${({ space }) => space ? space : '12px'};
 `;
-export default FormikTest;
+export default FormikTest2;
